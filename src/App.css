@@ -3,9 +3,40 @@
   padding: 0px;
 }
 
+body{
+  background-color: #f5f6fa;
+}
+
+.App{
+  display: flex;
+  justify-content: space-evenly;
+  padding: 3%;
+}
+
+
+@media (max-width:990px){
+  .App{
+    flex-direction: column;
+  }
+  
+}
+
 .app__header_container{
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 3%
+}
+.app__infoBox_container{
+  display: flex;
+  justify-content: space-between;
+}
+
+.app__left_container{
+  flex: 0.9;
+}
+
+.app__right_container{
+  
+
 }
