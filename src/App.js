@@ -3,20 +3,47 @@ import {FormControl,Select,MenuItem,CardContent,Card} from '@material-ui/core/'
 import { useState,useEffect } from 'react';
 import Map from './Components/Map';
 import InfoBox from './Components/InfoBox';
+import Table from './Components/Table'
+
 
 function App() {
   const [dropdownContries, setdropdownContries] = useState([])
-  const [country, setcountry] = useState('worldwide')
-  const [stats, setstats] = useState([])
+  const [country, setCountry] = useState('worldwide')
+  const [countryInfo, setCountryInfo] = useState('')
+const [tableData, setTableData] = useState('')
 
-  const countryChange = (e) =>{
-    setcountry(e.target.value)
-  }
+
+  useEffect(()=>(
+      fetch("https://disease.sh/v3/covid-19/all")
+      .then(response => response.json())
+      .then(data => setCountryInfo(data))
+  ),[])
+  
+
+  const OncountryChange = async(e) =>
+        {
+        const countryCode = e.target.value
+        const url = countryCode === 'worldwide' ? 
+                                    'https://disease.sh/v3​/covid-19​/all':
+                                    `https://disease.sh/v3/covid-19/countries/${countryCode}`
+
+        await fetch(url)
+        .then(response =>(
+        response.json()))
+        .then(data=>
+              {
+              setCountry(countryCode)
+              setCountryInfo(data)
+              
+              }
+           )
+        console.log(countryInfo)
+        }
+  
+  
 
   useEffect(() => {
-
     const getCountriesData = async ()=>{
-
        fetch("https://disease.sh/v3/covid-19/countries")
             .then((response)=>response.json())
             .then((data)=>{
@@ -26,6 +53,7 @@ function App() {
                   value : country.countryInfo.iso2
                 }
             ));
+            setTableData(data)
             setdropdownContries(countries)
 
             })
@@ -41,7 +69,7 @@ function App() {
                 <h1 className='app__heading'> Covid - Visualizer </h1>
                 {/* Dropdownbox */}
                 <FormControl className='app__dropdown'>
-                    <Select value={country} variant="outlined" onChange={countryChange}>
+                    <Select value={country} variant="outlined" onChange={OncountryChange}>
                       <MenuItem value='worldwide'>Worldwide</MenuItem>
 
                       {dropdownContries.map((country,index)=>(
@@ -56,12 +84,12 @@ function App() {
 
             
               {/* Infected */}
-              <InfoBox  title='Infected cases' no_of_cases ={stats[0]} total={1.23} />
+              <InfoBox  title='Infected cases' no_of_cases ={countryInfo.cases} total={countryInfo.cases} />
               {/* Recovered */}
-              <InfoBox  title='Recovered Cases' no_of_cases ={stats[1]} total={1.23} />
+              <InfoBox  title='Recovered Cases' no_of_cases ={countryInfo.todayRecovered} total={countryInfo.recovered} />
 
               {/* Deaths */}
-              <InfoBox  title='Deaths' no_of_cases ={stats[2]} total={1.23} />
+              <InfoBox  title='Deaths' no_of_cases ={countryInfo.todayDeaths} total={countryInfo.deaths} />
             </div>
             
 
@@ -73,8 +101,11 @@ function App() {
 
           <Card className="app__right_container">
               <CardContent>
-                TAble
-                Graph
+               <h3>Live Cases by Country </h3>
+               <Table countries={tableData}/>
+
+               <h3>Worldwide New Cases </h3>
+                // Graph
               </CardContent>
           </Card>
        

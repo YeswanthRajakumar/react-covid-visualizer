@@ -1,0 +1,22 @@
+.table__container{
+    margin-top: 20px;
+    height: 300px;
+    overflow: scroll;
+}
+
+.table__container tr:nth-of-type(odd){
+    background-color: rgb(221, 230, 230);
+
+}
+
+.table__row
+{
+display: flex;
+justify-content: space-between;
+padding-left: 4%;
+padding-right: 4%;
+}
+
+.table__row td{
+padding: 0.5rem;
+}
