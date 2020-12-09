@@ -4,8 +4,8 @@ import { useState,useEffect } from 'react';
 import Map from './Components/Map';
 import InfoBox from './Components/InfoBox';
 import Table from './Components/Table'
-
-
+import {sortData} from './Components/util'
+import LineGraph from './Components/LineGraph'
 function App() {
   const [dropdownContries, setdropdownContries] = useState([])
   const [country, setCountry] = useState('worldwide')
@@ -23,8 +23,9 @@ const [tableData, setTableData] = useState('')
   const OncountryChange = async(e) =>
         {
         const countryCode = e.target.value
+        console.log(countryCode)
         const url = countryCode === 'worldwide' ? 
-                                    'https://disease.sh/v3​/covid-19​/all':
+                                    "https://disease.sh/v3​/covid-19​/all":
                                     `https://disease.sh/v3/covid-19/countries/${countryCode}`
 
         await fetch(url)
@@ -40,7 +41,7 @@ const [tableData, setTableData] = useState('')
         console.log(countryInfo)
         }
   
-  
+
 
   useEffect(() => {
     const getCountriesData = async ()=>{
@@ -53,7 +54,8 @@ const [tableData, setTableData] = useState('')
                   value : country.countryInfo.iso2
                 }
             ));
-            setTableData(data)
+            const sortedData = sortData(data)
+            setTableData(sortedData)
             setdropdownContries(countries)
 
             })
@@ -70,10 +72,10 @@ const [tableData, setTableData] = useState('')
                 {/* Dropdownbox */}
                 <FormControl className='app__dropdown'>
                     <Select value={country} variant="outlined" onChange={OncountryChange}>
-                      <MenuItem value='worldwide'>Worldwide</MenuItem>
-
-                      {dropdownContries.map((country,index)=>(
-                      <MenuItem  index={country.value} value={country.value}>{country.name}</MenuItem>
+                     
+                     <MenuItem value='worldwide'>Worldwide</MenuItem>
+                      {dropdownContries.map((country)=>(
+                      <MenuItem  key={country.value} value={country.value}>{country.name}</MenuItem>
                       ))}
 
                     </Select>
@@ -94,18 +96,24 @@ const [tableData, setTableData] = useState('')
             
 
             {/* Map Component */}    
+
+
             <Map>
 
             </Map>
+
+
           </div>
 
           <Card className="app__right_container">
               <CardContent>
                <h3>Live Cases by Country </h3>
+                 {/* Table Component */}    
                <Table countries={tableData}/>
 
                <h3>Worldwide New Cases </h3>
-                // Graph
+                 {/* Graph Component */}    
+               <LineGraph/>
               </CardContent>
           </Card>
        

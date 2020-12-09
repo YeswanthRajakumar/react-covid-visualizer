@@ -18,6 +18,9 @@ body{
   .App{
     flex-direction: column;
   }
+  .app__right_container{
+    width:100%;
+  }
   
 }
 
