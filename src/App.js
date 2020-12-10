@@ -24,6 +24,7 @@ const App = () => {
   const [casesType, setCasesType] = useState("cases");
   const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
   const [mapZoom, setMapZoom] = useState(3);
+  const [point, setpoint] = useState({lat: 34.80746, lng: -40.4796})
 
   useEffect(() => {
     fetch("https://disease.sh/v3/covid-19/all")
@@ -52,7 +53,7 @@ const App = () => {
     getCountriesData();
   }, []);
 
-  console.log(casesType);
+
 
   const onCountryChange = async (e) => {
     const countryCode = e.target.value;
@@ -66,14 +67,21 @@ const App = () => {
       .then((data) => {
         setInputCountry(countryCode);
         setCountryInfo(data);
+
         if(countryCode === "worldwide"){
         setMapCenter([34.80746 ,-40.4796]);
-        setMapZoom(2);
-      }
-      else{
-        setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
-      }
         setMapZoom(4);
+      }
+        if(countryCode !== "worldwide"){
+        setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
+       
+        // setMapCenter({ lat: 20.5937, lng: 78.9629 });
+        setMapZoom(4);
+        console.log(mapCenter)
+        
+        
+      }
+       
       });
   };
 
@@ -110,6 +118,7 @@ const App = () => {
             active={casesType === "recovered"}
             cases={prettyPrintStat(countryInfo.todayRecovered)}
             total={numeral(countryInfo.recovered).format("0.0a")}
+            isblue
           />
           <InfoBox
             onClick={(e) => setCasesType("deaths")}
