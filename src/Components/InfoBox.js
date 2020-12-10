@@ -1,6 +1,7 @@
 import React from 'react'
 import {Card,CardContent,Typography} from '@material-ui/core/'
 // import CountUp from 'react-countup';
+import numeral from 'numeral';
 
 function InfoBox(props) {
     return (
