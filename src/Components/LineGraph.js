@@ -97,7 +97,7 @@ const options = {
                  data={{
                      datasets:[{
                           backgroundColor : '#e58a8a',
-                          borderColor:'#CC1034',
+                          borderColor:'#347ABB',
                           data:data
                       }]
                      }}

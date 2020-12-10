@@ -1,5 +1,6 @@
 .infoBox {
     flex: 1;
+    background-color: rgb(255, 255, 255) !important;
   }
   
   .infoBox:not(:last-child) {

@@ -22,11 +22,11 @@ const App = () => {
   const [mapCountries, setMapCountries] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [casesType, setCasesType] = useState("cases");
-  const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
-  const [mapZoom, setMapZoom] = useState(3);
-  const [point, setpoint] = useState({lat: 34.80746, lng: -40.4796})
+  const [mapCenter, setMapCenter] = useState({ lat:20.5937, lng: 78.9629 });
+  const [mapZoom, setMapZoom] = useState(4);
 
   useEffect(() => {
+    alert('View it in desktopsite for best Experience')
     fetch("https://disease.sh/v3/covid-19/all")
       .then((response) => response.json())
       .then((data) => {
@@ -90,6 +90,7 @@ const App = () => {
       <div className="app__left">
         <div className="app__header">
           <h1>COVID-19 Tracker</h1>
+            <span>Built with Love by Yeswanth Rajakumar</span>
           <FormControl className="app__dropdown">
             <Select
               variant="outlined"
